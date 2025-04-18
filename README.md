@@ -9,31 +9,39 @@ It's a handy tool for developers who need to:
 
 ---
 
-## ✨ Features
+## 📸 Screenshot
 
-- Open any `.jar` file
-- View all classes, methods, and fields
-- Rename selected elements with ease
-- Export the modified `.jar` file
+Here's how it looks in action:
+
+<img src="https://your-image-host.com/jarrenamer-screenshot.png" alt="JarRenamer UI" width="600"/>
 
 ---
 
-## 📦 How to Use
+## ✨ Features
 
-1. Launch the app
-2. Open a `.jar` file
-3. Select the class, method, or field you want to rename
-4. Enter a new name and confirm
-5. Save/export the updated `.jar`
+- 🔍 Load any `.jar` file
+- 🧬 Display all classes, methods, and fields
+- ✏️ Rename them with one click
+- 💾 Save/export modified `.jar`
+
+---
+
+## 🎮 Simple Usage
+
+1. Open the app
+2. Click **Browse**
+3. Browse the class tree
+4. Double-click to rename any name
+5. Click **Export** to save changes
 
 ---
 
 ## 💻 Technologies
 
-- Java
-- JavaFX for the user interface
-- ASM or similar library for bytecode editing
-- Gradle for project build
+- Java 17+
+- JavaFX (FXML UI)
+- ASM (or Javassist)
+- Gradle
 
 ---
 
@@ -57,7 +65,7 @@ src/main/
 git clone https://github.com/duykhongphai/JarRenamer.git
 cd JarRenamer
 ./gradlew run
-
+```
   
 ---
 
