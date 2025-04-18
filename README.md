@@ -38,7 +38,7 @@ It's a handy tool for developers who need to:
 ---
 
 ## 🔧 Project Structure
-
+```
 src/main/ 
 ├── java/main.jarrenamer/ │ 
   ├── JarRenamerApp.java # App entry point │ 
@@ -47,7 +47,7 @@ src/main/
 ├── resources/ │ 
   ├── main.jarrenamer/hello-view.fxml # UI layout │ 
   └── styles/main.css # UI styles
-
+```
   
 ---
 
@@ -58,5 +58,8 @@ git clone https://github.com/duykhongphai/JarRenamer.git
 cd JarRenamer
 ./gradlew run
 
-📄 License
+  
+---
+
+##📄 License
 This project is licensed under the MIT License.
