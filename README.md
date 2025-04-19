@@ -13,7 +13,7 @@ It's a handy tool for developers who need to:
 
 Here's how it looks in action:
 
-<img src="https://your-image-host.com/jarrenamer-screenshot.png" alt="JarRenamer UI" width="600"/>
+![Demo](assets/demo.gif)
 
 ---
 
