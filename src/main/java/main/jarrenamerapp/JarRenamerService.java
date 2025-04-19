@@ -7,7 +7,6 @@ import org.objectweb.asm.commons.Remapper;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
-import java.security.SecureRandom;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -27,18 +26,19 @@ public class JarRenamerService {
     private final List<String> classNames;
     private final List<String> methodNames;
     private final List<String> fieldNames;
-    private int nextClassNameIndex = 0;
-    private int nextMethodNameIndex = 0;
-    private int nextFieldNameIndex = 0;
 
     private final Map<String, Set<String>> classFields = new HashMap<>();
     private final Map<String, String> classToNewName = new HashMap<>();
     private final Map<String, String> fieldMappingGlobal = new HashMap<>();
     private final Map<String, String> methodMappingGlobal = new HashMap<>();
 
-    private final SecureRandom secureRandom = new SecureRandom();
+    private final Map<String, Integer> classNameCounters = new HashMap<>();
+    private final Map<String, Integer> methodNameCounters = new HashMap<>();
+    private final Map<String, Integer> fieldNameCounters = new HashMap<>();
 
     private final Map<String, Set<String>> usedNamesInClass = new HashMap<>();
+
+    private final Map<String, String> consistentRenamingCache = new HashMap<>();
 
     public JarRenamerService(File jarFile, File mappingFile, Set<String> classesToRename) throws IOException {
         this.jarFile = jarFile;
@@ -117,18 +117,18 @@ public class JarRenamerService {
         String originalName = jarFile.getName();
         String baseName = originalName.substring(0, originalName.lastIndexOf('.'));
         File outputFile = new File(jarFile.getParentFile(), baseName + "-renamed.jar");
+        analyzeClasses();
+        analyzeFieldsAndMethods();
         if (handleDuplicates) {
-            analyzeClasses();
-            analyzeFieldsAndMethods();
             Set<String> usedClassNames = new HashSet<>();
             for (String className : classFields.keySet()) {
                 boolean shouldRename = classesToRename == null || classesToRename.contains(className);
 
                 String newClassName;
                 if (shouldRename) {
-                    newClassName = calculateNewName(className, "class");
+                    newClassName = getConsistentNameForClass(className);
                     while (usedClassNames.contains(newClassName)) {
-                        newClassName = newClassName + "_" + generateRandomSuffix();
+                        newClassName = newClassName + "_" + generateDeterministicSuffix(className, classNameCounters);
                     }
                 } else {
                     newClassName = className;
@@ -143,7 +143,6 @@ public class JarRenamerService {
                 }
             }
         }
-
         try (JarInputStream jarIn = new JarInputStream(new FileInputStream(jarFile));
              JarOutputStream jarOut = new JarOutputStream(new FileOutputStream(outputFile))) {
             Set<String> processedEntries = new HashSet<>();
@@ -159,7 +158,9 @@ public class JarRenamerService {
 
                     String newEntryName;
                     if (shouldRename) {
-                        String newClassName = handleDuplicates ? classToNewName.get(className) : calculateNewName(className, "class");
+                        String newClassName = handleDuplicates ?
+                                classToNewName.get(className) :
+                                getConsistentNameForClass(className);
                         newEntryName = newClassName != null
                                 ? newClassName.replace('.', '/') + ".class"
                                 : entryName;
@@ -190,6 +191,38 @@ public class JarRenamerService {
         }
 
         return outputFile;
+    }
+
+    private String getConsistentNameForClass(String className) {
+        if (consistentRenamingCache.containsKey(className)) {
+            return consistentRenamingCache.get(className);
+        }
+
+        String newName = calculateNewName(className, "class");
+        consistentRenamingCache.put(className, newName);
+        return newName;
+    }
+
+    private String getConsistentNameForMethod(String className, String methodName) {
+        String key = className + "." + methodName;
+        if (consistentRenamingCache.containsKey(key)) {
+            return consistentRenamingCache.get(key);
+        }
+
+        String newName = calculateNewName(methodName, "method");
+        consistentRenamingCache.put(key, newName);
+        return newName;
+    }
+
+    private String getConsistentNameForField(String className, String fieldName) {
+        String key = className + "." + fieldName;
+        if (consistentRenamingCache.containsKey(key)) {
+            return consistentRenamingCache.get(key);
+        }
+
+        String newName = calculateNewName(fieldName, "field");
+        consistentRenamingCache.put(key, newName);
+        return newName;
     }
 
     private void analyzeClasses() throws IOException {
@@ -229,7 +262,7 @@ public class JarRenamerService {
 
                         for (String fieldName : analyzer.getFieldNames()) {
                             String key = className.replace('.', '/') + "." + fieldName;
-                            String newFieldName = calculateNewName(fieldName, "field");
+                            String newFieldName = getConsistentNameForField(className, fieldName);
 
                             Set<String> usedNames = usedNamesInClass.get(className);
                             if (usedNames == null) {
@@ -241,12 +274,12 @@ public class JarRenamerService {
                             if (newClassName != null) {
                                 String simpleClassName = getSimpleClassName(newClassName);
                                 if (newFieldName.equals(simpleClassName)) {
-                                    newFieldName = newFieldName + "_" + generateRandomSuffix();
+                                    newFieldName = newFieldName + "_" + generateDeterministicSuffix(fieldName, fieldNameCounters);
                                 }
                             }
 
                             while (usedNames.contains(newFieldName)) {
-                                newFieldName = newFieldName + "_" + generateRandomSuffix();
+                                newFieldName = newFieldName + "_" + generateDeterministicSuffix(fieldName, fieldNameCounters);
                             }
 
                             usedNames.add(newFieldName);
@@ -259,7 +292,7 @@ public class JarRenamerService {
                             }
 
                             String key = className.replace('.', '/') + "." + methodName;
-                            String newMethodName = calculateNewName(methodName, "method");
+                            String newMethodName = getConsistentNameForMethod(className, methodName);
 
                             Set<String> usedNames = usedNamesInClass.get(className);
                             if (usedNames == null) {
@@ -271,12 +304,12 @@ public class JarRenamerService {
                             if (newClassName != null) {
                                 String simpleClassName = getSimpleClassName(newClassName);
                                 if (newMethodName.equals(simpleClassName)) {
-                                    newMethodName = newMethodName + "_" + generateRandomSuffix();
+                                    newMethodName = newMethodName + "_" + generateDeterministicSuffix(methodName, methodNameCounters);
                                 }
                             }
 
                             while (usedNames.contains(newMethodName)) {
-                                newMethodName = newMethodName + "_" + generateRandomSuffix();
+                                newMethodName = newMethodName + "_" + generateDeterministicSuffix(methodName, methodNameCounters);
                             }
 
                             usedNames.add(newMethodName);
@@ -305,66 +338,57 @@ public class JarRenamerService {
             switch (type) {
                 case "class":
                     if (classNames != null && !classNames.isEmpty()) {
-                        if (nextClassNameIndex >= classNames.size()) {
-                            nextClassNameIndex = 0;  // Reset về đầu nếu đã hết danh sách
-                        }
+                        int index = Math.abs(originalName.hashCode()) % classNames.size();
                         int lastDot = originalName.lastIndexOf('.');
                         if (lastDot != -1) {
                             String packagePart = originalName.substring(0, lastDot);
-                            return packagePart + "." + classNames.get(nextClassNameIndex++);
+                            return packagePart + "." + classNames.get(index);
                         } else {
-                            return classNames.get(nextClassNameIndex++);
+                            return classNames.get(index);
                         }
                     }
                     break;
 
                 case "method":
                     if (methodNames != null && !methodNames.isEmpty()) {
-                        if (nextMethodNameIndex >= methodNames.size()) {
-                            nextMethodNameIndex = 0;
-                        }
-                        return methodNames.get(nextMethodNameIndex++);
+                        int index = Math.abs(originalName.hashCode()) % methodNames.size();
+                        return methodNames.get(index);
                     }
                     break;
 
                 case "field":
                     if (fieldNames != null && !fieldNames.isEmpty()) {
-                        if (nextFieldNameIndex >= fieldNames.size()) {
-                            nextFieldNameIndex = 0;
-                        }
-                        return fieldNames.get(nextFieldNameIndex++);
+                        int index = Math.abs(originalName.hashCode()) % fieldNames.size();
+                        return fieldNames.get(index);
                     }
                     break;
             }
             return originalName;
         }
-
-        String newName = originalName;
         if (originalName.startsWith("java.") || originalName.startsWith("javax.") || originalName.startsWith("android.")) {
             return originalName;
+        }
+        if (mappings.containsKey(originalName)) {
+            return mappings.get(originalName);
         }
         if (isPrefixMode) {
             if (type.equals("class")) {
                 int lastDot = originalName.lastIndexOf('.');
                 if (lastDot == -1) {
-                    newName = prefix + originalName;
+                    return prefix + originalName;
                 } else {
                     String packagePart = originalName.substring(0, lastDot);
                     String classPart = originalName.substring(lastDot + 1);
-                    newName = packagePart + "." + prefix + classPart;
+                    return packagePart + "." + prefix + classPart;
                 }
             } else {
-                newName = prefix + originalName;
+                return prefix + originalName;
             }
-        } else if (isReplaceMode) {
-            if (originalName.contains(textToReplace)) {
-                newName = originalName.replace(textToReplace, replacementText);
-            }
-        } else if (mappings.containsKey(originalName)) {
-            newName = mappings.get(originalName);
         }
-
-        return newName;
+        else if (isReplaceMode && originalName.contains(textToReplace)) {
+            return originalName.replace(textToReplace, replacementText);
+        }
+        return originalName;
     }
 
     private Map<String, String> loadMappingsFromFile(File file) throws IOException {
@@ -418,17 +442,10 @@ public class JarRenamerService {
         return buffer.toByteArray();
     }
 
-    private String generateRandomSuffix() {
-        int length = secureRandom.nextInt(2) + 1;
-        StringBuilder sb = new StringBuilder();
-        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-        for (int i = 0; i < length; i++) {
-            int index = secureRandom.nextInt(characters.length());
-            sb.append(characters.charAt(index));
-        }
-
-        return sb.toString();
+    private String generateDeterministicSuffix(String originalName, Map<String, Integer> counters) {
+        Integer counter = counters.getOrDefault(originalName, 0);
+        counters.put(originalName, counter + 1);
+        return String.valueOf(counter);
     }
 
     private String getSimpleClassName(String fullClassName) {
@@ -502,20 +519,19 @@ public class JarRenamerService {
         @Override
         public String map(String internalName) {
             String className = internalName.replace('/', '.');
-
             String newClassName;
             if (handleDuplicates) {
                 newClassName = classToNewName.get(className);
                 if (newClassName == null) {
                     if (classesToRename == null || classesToRename.contains(className)) {
-                        newClassName = calculateNewName(className, "class");
+                        newClassName = getConsistentNameForClass(className);
                     } else {
                         newClassName = className;
                     }
                 }
             } else {
                 if (classesToRename == null || classesToRename.contains(className)) {
-                    newClassName = calculateNewName(className, "class");
+                    newClassName = getConsistentNameForClass(className);
                 } else {
                     newClassName = className;
                 }
@@ -536,18 +552,18 @@ public class JarRenamerService {
 
             String ownerClassName = owner.replace('/', '.');
             if (classesToRename == null || classesToRename.contains(ownerClassName)) {
-                String newName = calculateNewName(name, "method");
+                String newName = getConsistentNameForMethod(ownerClassName, name);
                 if (handleDuplicates) {
                     Set<String> usedNames = usedNamesInClass.computeIfAbsent(ownerClassName, k -> new HashSet<>());
                     String ownerNewClassName = classToNewName.get(ownerClassName);
                     if (ownerNewClassName != null) {
                         String simpleClassName = getSimpleClassName(ownerNewClassName);
                         if (newName.equals(simpleClassName)) {
-                            newName = newName + "_" + generateRandomSuffix();
+                            newName = newName + "_" + generateDeterministicSuffix(name, methodNameCounters);
                         }
                     }
                     while (usedNames.contains(newName)) {
-                        newName = newName + "_" + generateRandomSuffix();
+                        newName = newName + "_" + generateDeterministicSuffix(name, methodNameCounters);
                     }
 
                     usedNames.add(newName);
@@ -564,20 +580,21 @@ public class JarRenamerService {
             if (fieldMappings.containsKey(key)) {
                 return fieldMappings.get(key);
             }
+
             String ownerClassName = owner.replace('/', '.');
             if (classesToRename == null || classesToRename.contains(ownerClassName)) {
-                String newName = calculateNewName(name, "field");
+                String newName = getConsistentNameForField(ownerClassName, name);
                 if (handleDuplicates) {
                     Set<String> usedNames = usedNamesInClass.computeIfAbsent(ownerClassName, k -> new HashSet<>());
                     String ownerNewClassName = classToNewName.get(ownerClassName);
                     if (ownerNewClassName != null) {
                         String simpleClassName = getSimpleClassName(ownerNewClassName);
                         if (newName.equals(simpleClassName)) {
-                            newName = newName + "_" + generateRandomSuffix();
+                            newName = newName + "_" + generateDeterministicSuffix(name, fieldNameCounters);
                         }
                     }
                     while (usedNames.contains(newName)) {
-                        newName = newName + "_" + generateRandomSuffix();
+                        newName = newName + "_" + generateDeterministicSuffix(name, fieldNameCounters);
                     }
 
                     usedNames.add(newName);
