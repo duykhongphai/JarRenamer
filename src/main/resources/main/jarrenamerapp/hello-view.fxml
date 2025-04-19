@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.StatusBar?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.cell.CheckBoxTreeCell?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.jarrenamerapp.JarRenamerController">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <padding>
+                <Insets bottom="10.0"/>
+            </padding>
+            <FontIcon iconLiteral="mdi2r-refresh" iconSize="32"/>
+            <Label styleClass="title-label" text="JAR Renamer Tool"/>
+        </HBox>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="10.0">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <Label text="JAR File:"/>
+                    <TextField fx:id="jarFileField" editable="false" HBox.hgrow="ALWAYS" promptText="Select JAR file"/>
+                    <Button onAction="#onSelectJarButtonClick" text="Browse">
+                        <graphic>
+                            <FontIcon iconLiteral="mdi2f-folder-open"/>
+                        </graphic>
+                    </Button>
+                </HBox>
+
+                <!-- TreeView cho phép chọn/bỏ chọn các class -->
+                <TitledPane text="Classes in JAR" fx:id="classesPane" expanded="true" visible="false" managed="false">
+                    <VBox spacing="5">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label text="Select classes to rename:"/>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button fx:id="selectAllButton" onAction="#onSelectAllButtonClick" text="Select All">
+                                <graphic>
+                                    <FontIcon iconLiteral="mdi2c-check-all"/>
+                                </graphic>
+                            </Button>
+                            <Button fx:id="deselectAllButton" onAction="#onDeselectAllButtonClick" text="Deselect All">
+                                <graphic>
+                                    <FontIcon iconLiteral="mdi2s-select-off"/>
+                                </graphic>
+                            </Button>
+                            <TextField fx:id="searchField" promptText="Search classes..." HBox.hgrow="ALWAYS" />
+                        </HBox>
+                        <TreeView fx:id="classTreeView" prefHeight="250.0" VBox.vgrow="ALWAYS" />
+                    </VBox>
+                </TitledPane>
+
+                <TitledPane text="Renaming Options">
+                    <VBox spacing="10">
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                            <Label text="Select Mode:" />
+                            <RadioButton fx:id="mappingRadio" text="Mapping File/URL" selected="true">
+                                <toggleGroup>
+                                    <ToggleGroup fx:id="modeGroup"/>
+                                </toggleGroup>
+                            </RadioButton>
+                            <RadioButton fx:id="textMappingRadio" text="Text Mapping" toggleGroup="$modeGroup"/>
+                            <RadioButton fx:id="prefixRadio" text="Prefix Mode" toggleGroup="$modeGroup"/>
+                            <RadioButton fx:id="replaceRadio" text="Replace Text" toggleGroup="$modeGroup"/>
+                            <RadioButton fx:id="threeFilesRadio" text="Three Files Mode" toggleGroup="$modeGroup"/>
+                        </HBox>
+                        <CheckBox fx:id="handleDuplicatesCheck" text="Rename duplicate names"/>
+                        <HBox fx:id="prefixBox" alignment="CENTER_LEFT" spacing="10.0" visible="false" managed="false">
+                            <Label text="Prefix:"/>
+                            <TextField fx:id="prefixField" HBox.hgrow="ALWAYS" promptText="Enter prefix (e.g., obf_)"/>
+                        </HBox>
+                        <VBox fx:id="replaceBox" spacing="5" visible="false" managed="false">
+                            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                <Label text="Text to Replace:"/>
+                                <TextField fx:id="textToReplaceField" HBox.hgrow="ALWAYS" promptText="Enter text to replace"/>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                <Label text="Replacement Text:"/>
+                                <TextField fx:id="replacementTextField" HBox.hgrow="ALWAYS" promptText="Enter replacement text"/>
+                            </HBox>
+                        </VBox>
+                        <HBox fx:id="mappingFileBox" alignment="CENTER_LEFT" spacing="10.0">
+                            <Label text="Mapping File:"/>
+                            <TextField fx:id="mappingFileField" HBox.hgrow="ALWAYS" promptText="Select mapping file or enter URL"/>
+                            <Button onAction="#onSelectMappingButtonClick" text="Browse">
+                                <graphic>
+                                    <FontIcon iconLiteral="mdi2f-folder-open"/>
+                                </graphic>
+                            </Button>
+                        </HBox>
+                        <VBox fx:id="mappingTextBox" spacing="5" visible="false" managed="false">
+                            <Label text="Mapping Content:" fx:id="mappingLabel"/>
+                            <TextArea fx:id="mappingTextArea" prefHeight="200.0" promptText="Enter mapping content in format: originalName->newName"/>
+                        </VBox>
+
+                        <!-- Three Files Mode UI -->
+                        <VBox fx:id="threeFilesBox" spacing="5" visible="false" managed="false">
+                            <Label text="Separate files for class, method, and field names" />
+                            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                <Label text="Class Names File:"/>
+                                <TextField fx:id="classNamesFileField" HBox.hgrow="ALWAYS" promptText="Select class names file" editable="false"/>
+                                <Button onAction="#onSelectClassNamesFileClick" text="Browse">
+                                    <graphic>
+                                        <FontIcon iconLiteral="mdi2f-folder-open"/>
+                                    </graphic>
+                                </Button>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                <Label text="Method Names File:"/>
+                                <TextField fx:id="methodNamesFileField" HBox.hgrow="ALWAYS" promptText="Select method names file" editable="false"/>
+                                <Button onAction="#onSelectMethodNamesFileClick" text="Browse">
+                                    <graphic>
+                                        <FontIcon iconLiteral="mdi2f-folder-open"/>
+                                    </graphic>
+                                </Button>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                <Label text="Field Names File:"/>
+                                <TextField fx:id="fieldNamesFileField" HBox.hgrow="ALWAYS" promptText="Select field names file" editable="false"/>
+                                <Button onAction="#onSelectFieldNamesFileClick" text="Browse">
+                                    <graphic>
+                                        <FontIcon iconLiteral="mdi2f-folder-open"/>
+                                    </graphic>
+                                </Button>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                </TitledPane>
+                <Button fx:id="executeButton" onAction="#onExecuteButtonClick" maxWidth="Infinity" styleClass="execute-button"
+                        text="Execute">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2p-play"/>
+                    </graphic>
+                </Button>
+                <ProgressBar fx:id="progressBar" maxWidth="Infinity" progress="0.0"/>
+            </VBox>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <StatusBar fx:id="statusBar"/>
+    </bottom>
+</BorderPane>

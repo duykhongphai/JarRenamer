@@ -1,0 +1,84 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JarRenamerApp:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JarRenamerApp_jar</output-path>
+    <root id="archive" name="JarRenamerApp.main.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="JarRenamerApp.main" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-fxml/19.0.2/26eaef75197fa036624f61fe19e1f3a90089c1d4/javafx-fxml-19.0.2-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/19.0.2/fef4194305f4cb3c50437a389f18ee2b3df31444/javafx-graphics-19.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/19.0.2/2da75379d437ded92b6b39a43ec2ddbfdab85434/javafx-base-19.0.2-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.controlsfx/controlsfx/11.1.2/584bc3f468e2c33100fcdbb1daf0a3e095e5e031/controlsfx-11.1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/19.0.2/9e0c1c543bc9d4ce4dc92e18849e065b15d550bd/javafx-controls-19.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.kordamp.ikonli/ikonli-javafx/12.3.1/6df78c8f23f4509f88b8e05c32da64b7dc494356/ikonli-javafx-12.3.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.kordamp.ikonli/ikonli-materialdesign2-pack/12.3.1/d6f5ea03a281cee1ce696f6da57fd95c7051ed7f/ikonli-materialdesign2-pack-12.3.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.5/fd33c8b6373abaa675be407082fdfda35021254a/asm-tree-9.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/19.0.2/8d02216cf976b6092874d442f075ea796c848af2/javafx-base-19.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.kordamp.ikonli/ikonli-core/12.3.1/50c5658c1a5aeeec30320c6be71274d01f5fb869/ikonli-core-12.3.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/19.0.2/1115b4c69577f621e8ec0a52b925d267c1c1b4ec/javafx-graphics-19.0.2-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/19.0.2/9bc2468448c2c6e8e56f6023fc6a9b5edc310676/javafx-controls-19.0.2-win.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.5/19ab5b5800a3910d30d3a3e64fdb00fd0cb42de0/asm-commons-9.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.5/dc6ea1875f4d64fbc85e1691c95b96a3d8569c90/asm-9.5.jar" path-in-jar="/" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-console-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-console-l1-2-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-datetime-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-debug-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-errorhandling-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-file-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-file-l1-2-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-file-l2-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-handle-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-heap-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-interlocked-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-libraryloader-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-localization-l1-2-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-memory-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-namedpipe-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-processenvironment-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-processthreads-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-processthreads-l1-1-1.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-profile-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-rtlsupport-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-string-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-synch-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-synch-l1-2-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-sysinfo-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-timezone-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-core-util-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-conio-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-convert-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-environment-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-filesystem-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-heap-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-locale-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-math-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-multibyte-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-private-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-process-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-runtime-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-stdio-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-string-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-time-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/api-ms-win-crt-utility-l1-1-0.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/decora_sse.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/fxplugins.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/glass.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/glib-lite.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/gstreamer-lite.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/javafx_font.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/javafx_iio.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/jfxmedia.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/jfxwebkit.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/msvcp140.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/msvcp140_1.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/msvcp140_2.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/prism_common.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/prism_d3d.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/prism_sw.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/ucrtbase.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/vcruntime140.dll" />
+      <element id="file-copy" path="C:/Program Files/Java/javafx-sdk-24.0.1/bin/vcruntime140_1.dll" />
+    </root>
+  </artifact>
+</component>
